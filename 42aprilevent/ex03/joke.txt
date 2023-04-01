@@ -1,0 +1,9 @@
+-Araba nerde?
++Müşteride
+-Para nerde?
++Yarın getiricekler
+-Araba nerde?
++Müşteride
+-Para nerde?
++Yarın getiricekler
+...
