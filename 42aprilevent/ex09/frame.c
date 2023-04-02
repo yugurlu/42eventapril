@@ -9,6 +9,8 @@ void	build_wall(int frame_len)
 	int	i;
 
 	i = 0;
+	if(frame_len == 0)
+		return ;
 	while (i < frame_len)
 	{
 		printf("*");
@@ -17,7 +19,7 @@ void	build_wall(int frame_len)
 	printf("\n");
 }
 
-int	max_frame(char **input)
+int	max_frame(char **input, int y)
 {
 	int	i;
 	int	j;
@@ -26,22 +28,22 @@ int	max_frame(char **input)
 	i = 0;
 	j = 0;
 	max = 0;
-	while (input[1][j])
+	while (input[y][j])
 	{
-		while (input[1][j] && input[1][j] != ' ')
+		while (input[y][j] && input[y][j] != ' ')
 		{
 			j++;
 			i++;
 		}
 		if (i > max)
 			max = i;
-		if (input[1][j] == ' ')
+		if (input[y][j] == ' ')
 		{
 			j++;
 			i = 0;
 		}
 	}
-	return ((max + 4));
+	return (max == 0 ? 0 : max + 4);
 }
 
 int word_counter(char *str)
@@ -68,40 +70,46 @@ int word_counter(char *str)
 int	main(int ac, char **av)
 {
 	int	i;
+	int y;
 	int	j;
 	int word_count;
 	int	frame_len;
 
-	if (ac == 2)
+	if (ac != 1)
 	{
-		i = 0;
-		frame_len = max_frame(av);
-		word_count = word_counter(av[1]);
-		build_wall(frame_len);
-		while (word_count && av[1][i])
+		y = 1;
+		while(ac > y)
 		{
-			j = 0;
-			printf("* ");
-			while (av[1][i] && av[1][i] != ' ')
+			i = 0;
+			frame_len = max_frame(av , y);
+			word_count = word_counter(av[y]);
+			build_wall(frame_len);
+			while (word_count && av[y][i] && frame_len)
 			{
-				printf("%c", av[1][i]);
-				i++;
-				j++;
-			}
-			if (j < (frame_len + 1) / 2)
-			{
-				while ((j + 2) < (frame_len - 2))
+				j = 0;
+				printf("* ");
+				while (av[y][i] && av[y][i] != ' ')
 				{
-					printf(" ");
+					printf("%c", av[y][i]);
+					i++;
 					j++;
 				}
-				printf("*\n");
+				if (j <= (frame_len - 5))
+				{
+					while (j < (frame_len - 3))
+					{
+						printf(" ");
+						j++;
+					}
+					printf("*\n");
+				}
+				else
+					printf(" *\n");
+				i++;
+				word_count--;
 			}
-			else
-				printf(" *\n");
-			i++;
-			word_count--;
+			build_wall(frame_len);
+			y++;
 		}
-		build_wall(frame_len);
 	}
 }
