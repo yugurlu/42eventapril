@@ -53,47 +53,120 @@ int		calc_base(int size)
 	return (width);
 }
 
-void put_characters(int size)
+void put_character(int input, int size, int step, int width, int curr_floor, int curr_floor_rows)
 {
-	int i;
-
-	printf("/");
+	if(step == 1)
+	{
+		printf("/");
+		return ;
+	}
+	else if (step == width)
+	{
+		printf("\\");
+		return ;
+	}
+	printf("*");
 }
 
+int ft_lengt(int nb)
+{
+	int i = 0;
+	int flag = 3;
+	int sum = 0;
+	while(i < nb)
+	{
+		sum += flag;
+		flag++;
+		i++;
+	}
+	return (sum);
+}
 
 int main(int ac, char **av)
 {
+	int i;
 	int size;
 	int step;
+	int door;
+	int flag;
 	int count;
 	int width;
+	int layer;
+	int length;
+	int door_temp;
+	int door_knob;
+	int door_layer;
+	int floor_rows;
+	int curr_floor;
+	int floor_number;
+	int curr_floor_rows;
 	int curr_floor_space;
-	int next_floor_space;
-	int start_space_size;
 
 	if (ac != 2 || !isdigit(av[1][0]))
 		return (0);
-	size = atoi(av[1]);
-	count = atoi(av[1]) + 2;
+	count = atoi(av[1]);
 
-	curr_floor_space = (((calc_base(size) - 1) / 2) - 1);
-    next_floor_space = (((calc_base(size - 1) - 1) / 2) - 1);
-
+	flag = 0;
+	size = 3;
 	width = 3;
+	door_layer = 1;
+	floor_rows = 3;
+	curr_floor = 1;
+	curr_floor_rows = 1;
+	length = ft_lengt(atoi(av[1]));
 	while (count)
 	{
-		step = 0;
-		while (step < width)
+		layer = 1;
+		curr_floor_rows = 1;
+		while (curr_floor_rows <= size)
 		{
+			step = 1;
+			curr_floor_space = ((calc_base(atoi(av[1])) - width) / 2);
 			put_space(curr_floor_space);
-			put_characters(size, step, width);
-			step++;
+			while(width >= step)
+			{
+				put_character(atoi(av[1]), size, step, width, curr_floor, curr_floor_rows);
+				if(curr_floor == atoi(av[1]) && ((atoi(av[1]) % 2 == 0 ? 3:2) == layer - 1 || flag))
+				{
+					if(atoi(av[1]) == 1 || atoi(av[1]) == 2)
+						door = 1;
+					else if(atoi(av[1]) % 2 == 0)
+						door = atoi(av[1]) - 1;
+					else
+						door = atoi(av[1]);
+					door_temp = door;
+					if(door == 1 && (width / 2) == step)
+					{
+						printf("|");
+						step++;
+					}
+					else if (door > 1 && ((step * 2) + door) == width)
+					{
+						door_knob = 1;
+						while(door)
+						{
+							if (atoi(av[1]) > 4 && door_knob + 1 == door_temp && (door_temp / 2) + 1 == door_layer)
+								printf("$");
+							else
+								printf("|");
+							door--;
+							step++;
+							door_knob++;
+						}
+						flag = 1;
+						door_layer++;
+					}
+				}
+				step++;
+			}
+			printf("\n");
+			layer++;
+			width += 2;
+			curr_floor_rows++;
 		}
+		curr_floor++;
+		width += 4 + 2 * ((curr_floor - 2) / 2);
+		size++;
 		count--;
-		width += 2;
 	}
-
-
-
-
 }

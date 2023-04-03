@@ -7,8 +7,8 @@ message = MIMEMultipart()
 message['Subject'] = input("Title: ")
 message.attach(MIMEText(input("Text: ")))
 
-mailAdress = "your_mail"
-password = "your_password"
+mailAdress = "istanbul42bot@gmail.com"
+password = "juxf nxzf mysz anws"
 
 sendTo = input("Mail adress: ")
 
@@ -16,7 +16,8 @@ filename = input("File name: ")
 index = filename.index(".")
 filetype = filename[index + 1:]
 
-with open(filename, "rb") as attachment:
+attachment = open(filename, "rb")
+if attachment != None:
 	part = MIMEApplication(attachment.read(), _subtype=filetype)
 	part.add_header('Content-Disposition','attachment',filename=filename)
 	message.attach(part)
