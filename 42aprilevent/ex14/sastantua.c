@@ -1,20 +1,4 @@
-/*
 
-space_size
-
-2 8 15 24 34
-1 2  3  4  5
-
-1-2 -> ((7 - 1) / 2) - 1;
-
-2-8 -> ((19 - 1) / 2) - 1;
-
-3-15 -> ((33 - 1) / 2) - 1;
-
-4-24 -> ((51 - 1) / 2) - 1;
-
-
-*/
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,7 +37,7 @@ int		calc_base(int size)
 	return (width);
 }
 
-void put_character(int input, int size, int step, int width, int curr_floor, int curr_floor_rows)
+void put_character(int step, int width)
 {
 	if(step == 1)
 	{
@@ -92,28 +76,23 @@ int main(int ac, char **av)
 	int count;
 	int width;
 	int layer;
-	int length;
 	int door_temp;
 	int door_knob;
 	int door_layer;
-	int floor_rows;
 	int curr_floor;
-	int floor_number;
 	int curr_floor_rows;
 	int curr_floor_space;
 
 	if (ac != 2 || !isdigit(av[1][0]))
 		return (0);
-	count = atoi(av[1]);
 
 	flag = 0;
 	size = 3;
 	width = 3;
 	door_layer = 1;
-	floor_rows = 3;
 	curr_floor = 1;
+	count = atoi(av[1]);
 	curr_floor_rows = 1;
-	length = ft_lengt(atoi(av[1]));
 	while (count)
 	{
 		layer = 1;
@@ -125,7 +104,7 @@ int main(int ac, char **av)
 			put_space(curr_floor_space);
 			while(width >= step)
 			{
-				put_character(atoi(av[1]), size, step, width, curr_floor, curr_floor_rows);
+				put_character(step, width);
 				if(curr_floor == atoi(av[1]) && ((atoi(av[1]) % 2 == 0 ? 3:2) == layer - 1 || flag))
 				{
 					if(atoi(av[1]) == 1 || atoi(av[1]) == 2)
