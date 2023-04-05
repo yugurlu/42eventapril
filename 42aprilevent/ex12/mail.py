@@ -7,8 +7,8 @@ message = MIMEMultipart()
 message['Subject'] = input("Title: ")
 message.attach(MIMEText(input("Text: ")))
 
-mailAdress = "istanbul42bot@gmail.com"
-password = "juxf nxzf mysz anws"
+mailAdress = "your-mail"
+password = "your-password"
 
 sendTo = input("Mail adress: ")
 
